@@ -27,7 +27,7 @@
 static int N;
 static int MAX_ITERATIONS;
 static int SEED;
-static float CONVERGENCE_THRESHOLD;
+static double CONVERGENCE_THRESHOLD;
 
 #define SEPARATOR "------------------------------------\n"
 
@@ -39,14 +39,14 @@ void parse_arguments(int argc, char *argv[]);
 
 // Run the Jacobi solver
 // Returns the number of iterations performed
-int run(float *A, float *D, float *b, float *x, float *xtmp)
+int run(double *A, double *D, double *b, double *x, double *xtmp)
 {
   int itr;
   int row, col;
-  float dot;
-  float diff;
-  float sqdiff;
-  float *ptrtmp;
+  double dot;
+  double diff;
+  double sqdiff;
+  double *ptrtmp;
 
   // Loop until converged or maximum iterations reached
   itr = 0;
@@ -87,12 +87,12 @@ int main(int argc, char *argv[])
 {
   parse_arguments(argc, argv);
 
-  float *Aprime = malloc(N*N*sizeof(float));
-  float *A    = malloc(N*N*sizeof(float));
-  float *D    = malloc(N*sizeof(float));
-  float *b    = malloc(N*sizeof(float));
-  float *x    = malloc(N*sizeof(float));
-  float *xtmp = malloc(N*sizeof(float));
+  double *Aprime = malloc(N*N*sizeof(double));
+  double *A    = malloc(N*N*sizeof(double));
+  double *D    = malloc(N*sizeof(double));
+  double *b    = malloc(N*sizeof(double));
+  double *x    = malloc(N*sizeof(double));
+  double *xtmp = malloc(N*sizeof(double));
 
 
   printf(SEPARATOR);
@@ -108,17 +108,17 @@ int main(int argc, char *argv[])
   int row, col;
   for (row = 0; row < N; row++)
   {
-    float rowsum = 0.0;
+    double rowsum = 0.0;
     for (col = 0; col < N; col++)
     {
-      float value = rand()/(float)RAND_MAX;
+      double value = rand()/(double)RAND_MAX;
       A[col + row*N] = value;
       Aprime[col + row*N] = value;
       rowsum += value;
     }
     A[row + row*N] += rowsum;
     Aprime[row + row*N] += rowsum;
-    b[row] = rand()/(float)RAND_MAX;
+    b[row] = rand()/(double)RAND_MAX;
     x[row] = 0.0;
     D[row] = 0.0;
   }
@@ -137,10 +137,10 @@ int main(int argc, char *argv[])
   double solve_end = get_timestamp();
 
   // Check error of final solution
-  float err = 0.0;
+  double err = 0.0;
   for (row = 0; row < N; row++)
   {
-    float tmp = 0.0;
+    double tmp = 0.0;
     for (col = 0; col < N; col++)
     {
       tmp += Aprime[col + row*N] * x[col];
