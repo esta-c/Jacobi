@@ -52,7 +52,6 @@ int run(float *A, float *D, float *b, float *x, float *xtmp)
   itr = 0;
   do
   {
-
 // Perfom Jacobi iteration (can be extracted into function)
 for (row = 0; row < N; row++)
 {
